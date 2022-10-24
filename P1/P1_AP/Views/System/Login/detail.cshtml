@@ -1,0 +1,131 @@
+@{
+  ViewData["Title"] = "LoginAdd";
+
+  @* 取得畫面資料 *@
+  string act = Convert.ToString(TempData["act"]);
+  string login_id = Convert.ToString(TempData["login_id"]);
+
+}
+@* 功能列 *@
+<div class="btn-group">
+  <a
+    href="#"
+    class="btn btn-primary active"
+    aria-current="pseq"
+  >Login</a>
+  <a
+    class="btn btn-primary"
+    href="List"
+    id="listButton"
+  >列表</a>
+  <a
+    class="btn btn-primary"
+    id="delButton"
+  >刪除</a>
+</div>
+<div class="row m-2"></div>
+@* 表單區域 *@
+<form
+  id="form"
+  method="post"
+>
+  <input
+    type="hidden"
+    name="login_id"
+  >
+
+  <div class="row mb-3">
+    <label
+      for="created_ user"
+      class="col-sm-2 col-form-label"
+    >登入帳號</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="empy_name"
+        name="empy_name"
+      >
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      for="login_url"
+      class="col-sm-2 col-form-label"
+    >登入時間</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="created_datetime"
+        name="created_datetime"
+      >
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      for="login_url"
+      class="col-sm-2 col-form-label"
+    >狀態</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="status"
+        name="status"
+      >
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      for="login_url"
+      class="col-sm-2 col-form-label"
+    >說明</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="note"
+        name="note"
+      >
+    </div>
+  </div>
+
+
+  <button
+    id="submit_id"
+    type="submit"
+    class="btn btn-primary"
+  >送出</button>
+</form>
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+    @* 取得明細資料 *@
+    if ("@act" === "note") {
+      $("#form :input").attr("disabled", true);
+      $("#submit_id").hide();
+
+      $.getJSON("/System/Login/detailByID", { login_id: "@login_id" },
+        function (data) {
+          @* alert(JSON.stringify(data)); *@
+            $("form input[name='login_id']").val(data[0]["login_id"]);
+          $("#form input[name='empy_name']").val(data[0]["empy_name"]);
+          $("#form input[name='created_datetime']").val(data[0]["created_datetime"]);
+          $("#form input[name='status']").val(data[0]["status"]);
+          $("#form input[name='note']").val(data[0]["note"]);
+        });
+    }
+
+    @* 刪除狀態 *@
+      $("#delButton").on("click", function () {
+        if (confirm("確定要刪除資料？")) {
+          let url = "/System/Login/Del?login_id=" + "@login_id";
+          window.location.href = url;
+        }
+      });
+  });
+
+</script>
+}

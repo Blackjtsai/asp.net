@@ -1,0 +1,173 @@
+@using Newtonsoft.Json;
+@using P1_Core;
+
+@model IEnumerable<empy_role>;
+
+@{
+
+  ViewData["Title"] = "EmpyRoleList";
+  @* 取新增刪除修改狀態資料 *@
+  string resMsg = Convert.ToString(TempData["ExcuteStatus"]);
+
+  @* 取列表資料 方法一：DeserializeObject*@
+  @* List<empy_role> EmpyRoleData =
+    JsonConvert.DeserializeObject<List<empy_role>>(Context.Session.GetString("EmpyRoleData"));
+    //使用session*@
+
+  @* 取列表資料 方法二：Model*@
+  List<empy_role> EmpyRoleData = Model.ToList();
+}
+<section id="app-list">
+  @* 功能列 *@
+  <div class="row">
+    <div class="col-4">
+      <div class="btn-group">
+        <a
+          href="#"
+          class="btn btn-primary active"
+          aria-current="page"
+        >EmpyRole</a>
+        <a
+          class="btn btn-primary"
+          href="/System/EmpyRole/List"
+        >列表</a>
+        <a
+          class="btn btn-primary"
+          href="/System/EmpyRole/Detail?act=add"
+        >新增</a>
+      </div>
+    </div>
+    <div class="col text-end">
+      <a
+        href="#"
+        onclick="searchAction('up',-1)"
+      >上一頁</a> <a
+        href="#"
+        onclick="searchAction('next',1)"
+      >下一頁
+      </a>
+      @ViewData["pageNum"] / @ViewData["pageTotal"]
+      ：總筆數 : @ViewData["listCount"]
+
+      <input
+        type="hidden"
+        id="pageNum"
+      >
+    </div>
+  </div>
+  @* 查詢 *@
+  <div class="row m-2"></div>
+  <div class="row g-3 ">
+    <div class="col-sm-2">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="帳號"
+        id="empy_name"
+      >
+    </div>
+    <div class="col-sm">
+      <div class="btn-group">
+        <button
+          class="btn btn-info"
+          onclick="searchAction('search',0)"
+        > 查詢 </button>
+      </div>
+    </div>
+  </div>
+  @* 顯示執行狀態資料 *@
+  @{
+    if (resMsg != "" && resMsg != null)
+    {
+      <div class="row m-2"></div>
+      <div
+      class="alert alert-warning alert-dismissible fade show "
+      role="alert"
+    >
+        <strong>@resMsg</strong>
+        <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+      </div>
+    }
+  }
+
+  @*  列表 *@
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">empy_id</th>
+        <th scope="col">帳號</th>
+        <th scope="col">管理系統</th>
+        <th scope="col">功能項目</th>
+        <th scope="col">note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="(item,index) in now_listdata"
+        v-if=" this.now_listdata.length > 0 "
+        v-on:click="gotoDetail(item.empy_role_id)"
+      >
+        <th scope="row">{{item.empy_role_id }}</th>
+        <td>{{item.empy_id}}</td>
+        <td>{{item.empy_name}}</td>
+        <td>{{item.controller_name}}</td>
+        <td>{{item.action_name}}</td>
+        <td>{{item.note}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+@{
+  if (EmpyRoleData == null)
+  {
+    <div class="p-3 mb-2  bg-light text-darke">尚無資料</div>
+  }
+}
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+  });
+  @* 查詢 *@
+    function searchAction(type, num) {
+      let getString = "";
+      let pageNum = 1;
+      if (type != 'search') pageNum = parseInt($("#pageNum").val()) + parseInt(num);
+      getString += "pageNum=" + pageNum;
+      getString += "&empy_name=" + $("#empy_name").val();
+      let url = encodeURI("/System/EmpyRole/list?" + getString);
+      window.location.href = url;
+    };
+  //  listVue
+  ListVue = Vue.createApp({
+    data() {
+      return {
+        listdata: []
+      }
+    },
+    mounted() {
+      // 取List
+      let that = this;
+      that.listdata = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(EmpyRoleData))');
+    },
+    computed: {
+      now_listdata() {
+        return this.listdata;
+      }
+    },
+    methods: {
+      gotoDetail(empy_role_id) {
+        let url = "/System/EmpyRole/Detail?act=note&empy_role_id=" + empy_role_id;
+        window.location.href = url;
+      },
+    }
+  }).mount('#app-list');
+</script>
+}

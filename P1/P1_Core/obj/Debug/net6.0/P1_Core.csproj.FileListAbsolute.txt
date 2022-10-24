@@ -1,0 +1,12 @@
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/bin/Debug/net6.0/P1_Core.deps.json
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/bin/Debug/net6.0/P1_Core.dll
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/bin/Debug/net6.0/P1_Core.pdb
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.csproj.AssemblyReference.cache
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.AssemblyInfoInputs.cache
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.AssemblyInfo.cs
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.csproj.CoreCompileInputs.cache
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.dll
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/refint/P1_Core.dll
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/P1_Core.pdb
+/Users/blackjtsai/Documents/tutorial/aspnet/P1/P1_Core/obj/Debug/net6.0/ref/P1_Core.dll

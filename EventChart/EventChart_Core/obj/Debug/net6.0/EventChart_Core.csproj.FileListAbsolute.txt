@@ -1,0 +1,12 @@
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/bin/Debug/net6.0/EventChart_Core.deps.json
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/bin/Debug/net6.0/EventChart_Core.dll
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/bin/Debug/net6.0/EventChart_Core.pdb
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.csproj.AssemblyReference.cache
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.AssemblyInfoInputs.cache
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.AssemblyInfo.cs
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.csproj.CoreCompileInputs.cache
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.dll
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/refint/EventChart_Core.dll
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/EventChart_Core.pdb
+/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_Core/obj/Debug/net6.0/ref/EventChart_Core.dll

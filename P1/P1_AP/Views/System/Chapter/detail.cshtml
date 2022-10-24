@@ -1,0 +1,323 @@
+@{
+  ViewData["Title"] = "ChapterAdd";
+  @* 取得畫面資料 *@
+  string act = Convert.ToString(TempData["act"]);
+  string chapter_id = Convert.ToString(TempData["chapter_id"]);
+}
+<section id="app-detail">
+  @* 功能列 *@
+  <div class="btn-group">
+    <a
+      href="#"
+      class="btn btn-primary active"
+      aria-current="pseq"
+    >Chapter</a>
+    <a
+      class="btn btn-primary"
+      href="List"
+      id="listButton"
+    >列表</a>
+    <a
+      class="btn btn-primary"
+      id="editButton"
+      v-show="editButtonShow"
+      v-on:click="editHandler"
+    >修改</a>
+    <a
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal_del"
+      v-show="delButtonShow"
+    >刪除</a>
+  </div>
+  <div class="row m-2"></div>
+  @* 表單區域 *@
+  <form
+    id="form"
+    method="post"
+    v-bind:action="actionUrl"
+  >
+    @* id *@
+    <input
+      type="hidden"
+      name="chapter_id"
+      v-model="chapter_id"
+    >
+    @* note *@
+    <input
+      type="hidden"
+      v-model="note"
+      name="note"
+    >
+    @* 章節 *@
+    <div class="row mb-3">
+      <label
+        for="chapter_name"
+        class="col-sm-2 col-form-label"
+      >章節</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="chapter_name"
+          name="chapter_name"
+          v-model.trim="chapter_name"
+        >
+      </div>
+    </div>
+    @* 連結 *@
+    <div class="row mb-3">
+      <label
+        for="chapter_url"
+        class="col-sm-2 col-form-label"
+      >連結</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="chapter_url"
+          name="chapter_url"
+          v-model.trim="chapter_url"
+        >
+      </div>
+    </div>
+    @* 排序 *@
+    <div class="row mb-3">
+      <label
+        class="col-sm-2 col-form-label"
+        for="seq"
+      >排序</label>
+      <div class="col-sm-10">
+        <select
+          class="form-select "
+          id="seq"
+          name="seq"
+          v-model="seq"
+        >
+          <option
+            v-for="(num) in seq_set "
+            v-bind:value="num"
+          >{{num}}</option>
+        </select>
+      </div>
+    </div>
+    @* 狀態 *@
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">狀態</label>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="status"
+            value="未完成"
+            v-model="status"
+          >
+          <label class="form-check-label">
+            未完成
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="status"
+            v-model="status"
+            value="已完成"
+          >
+          <label class="form-check-label">
+            已完成
+          </label>
+        </div>
+      </div>
+    </div>
+    @* 內容 *@
+    <div class="row mb-3">
+      <label
+        for="note"
+        class="col-sm-2 col-form-label"
+      >內容</label>
+      <div class="col-sm-10">
+        <div
+          class="form-check"
+          v-for="(item,key) in note_list"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="note_arr"
+            id="item"
+            v-model="note_arr"
+            v-bind:value="item"
+            checked
+          >
+          <label class="form-check-label">
+            {{ item }}
+          </label>
+        </div>
+      </div>
+    </div>
+    @* 送出 *@
+    <div class="row mb-3">
+      <button
+        id="submit_id"
+        type="button"
+        class="btn btn-primary p-"
+        v-show="submitButtonShow"
+        v-on:click="submitHandler"
+      >送出</button>
+    </div>
+
+  </form>
+
+  <!-- Modal  del-->
+  <div
+    class="modal fade"
+    id="exampleModal_del"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel_del"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5
+            class="modal-title"
+            id="exampleModalLabel_del"
+          >確認要刪除～</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        @* <div class="modal-body">
+          ...
+          </div> *@
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >取消</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            v-on:click="delHandler"
+          >確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+    @* ----- *@
+  });
+  // detail
+  Vue.createApp({
+    data() {
+      return {
+        detail_data: []
+        , editButtonShow: true
+        , delButtonShow: true
+        , submitButtonShow: true
+        , actionUrl: ""
+        , chapter_id: "@chapter_id"
+        , chapter_name: ""
+        , chapter_url: ""
+        , seq: ""
+        , seq_set: 80
+        , status: "未完成"
+        , note: ""
+        , note_arr: []
+        , note_list: ["基本框架", "分頁", "Vue-list", "Vue-detail", "API", "檔案上架", "xls"]
+      }
+    },
+    mounted() {
+      var that = this;
+      @* 功能列init/鎖定表單 *@
+      if ("@act" === "add") {
+        that.actionUrl = "/System/Chapter/Add";
+        that.editButtonShow = false;
+        that.delButtonShow = false;
+      };
+      if ("@act" === "note") {
+        $("#form :input").attr("disabled", true);
+        that.submitButtonShow = false;
+      };
+      @* 取得明細資料 *@
+      if ("@act" === "note") {
+        $.getJSON("/System/Chapter/detailByID", { chapter_id: "@chapter_id" },
+          function (data) {
+            @* alert(JSON.stringify(data)); *@
+              that.detail_data = data[0];
+            that.chapter_id = that.detail_data["chapter_id"];
+            that.chapter_name = that.detail_data["chapter_name"];
+            that.chapter_url = that.detail_data["chapter_url"];
+            that.seq = that.detail_data["seq"];
+            that.status = that.detail_data["status"];
+            that.note = that.detail_data["note"];
+            var checkbox_arr = that.note.split(",");
+            that.note_list.forEach(item => {
+              @* console.log(item); *@
+              if (checkbox_arr.indexOf(item) != -1) {
+                that.note_arr.push(item);
+              }
+            });
+          });
+      }
+    },
+    computed:
+    {
+    },
+    methods:
+    {
+      editHandler() {
+        @* 修改狀態 *@
+          this.actionUrl = "/System/Chapter/Edit";
+        this.submitButtonShow = true;
+        $("#form :input").attr("disabled", false);
+      },
+      delHandler() {
+        @* 刪除作業 *@
+          let url = "/System/Chapter/Del?chapter_id=" + this.chapter_id;
+        window.location.href = url;
+      },
+      submitHandler() {
+
+        @* 表單送出 *@
+          $("#submit_id").attr("disabled", true);
+        @* 整理checkbox資料 *@
+          this.note = this.note_arr.join(',');
+        @* 必須還要使用以下指定值才有用 不知原因 *@
+          $("form input[name='note']").val(this.note);
+        @* 檢查表單 *@
+        if (this.checkHandler() === false) {
+          return false;
+        };
+        @* 表單送出 *@
+          $("#form").submit();
+      },
+      checkHandler() {
+        @* 檢查表單 *@
+          let err_mag = "";
+        if (this.chapter_name == "") err_mag += ('chapter_name is empty.' + "\n");
+        if (this.chapter_url == "") err_mag += ('chapter_url is empty.' + "\n");
+        if (this.seq == "") err_mag += ('seq is empty.' + "\n");
+        if (this.status == "") err_mag += ('status is empty.' + "\n");
+        if (this.note == "") err_mag += ('note is empty.' + "\n");
+        if (err_mag != "") {
+          alert(err_mag);
+          $("#submit_id").attr("disabled", false);
+          return false;
+        }
+        return true;
+      },
+    },
+  }).mount('#app-detail');
+</script>
+}

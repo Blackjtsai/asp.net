@@ -1,0 +1,117 @@
+﻿@using P1_Core;
+@using Newtonsoft.Json;
+@using System;
+@* @{
+    empy layoutLoginInfoData = null;
+    if (Context.Session.GetString("LoginInfoData") != null)
+    {
+    layoutLoginInfoData = JsonConvert.DeserializeObject<empy>(Context.Session.GetString("LoginInfoData"));
+    }
+    } *@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <title>@ViewData["Title"] - P1_AP</title>
+    <link
+        rel="stylesheet"
+        href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+        rel="stylesheet"
+        href="~/css/site.css"
+        asp-append-version="true"
+    />
+    <link
+        rel="stylesheet"
+        href="~/P1_AP.styles.css"
+        asp-append-version="true"
+    />
+</head>
+
+<body>
+    <header id="app-nav">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a
+                    class="navbar-brand"
+                    asp-area=""
+                    asp-controller="Home"
+                    asp-action="Index"
+                >P1_AP</a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @* 選單 *@
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li
+                            class="nav-item"
+                            v-for="item in now_menu"
+                            :key="item.chapter_name"
+                        >
+                            <a
+                                class="nav-link text-dark"
+                                :href="item.chapter_url"
+                            >
+                                {{ item.chapter_name }}
+                            </a>
+                        </li>
+                    </ul>
+                    <div
+                        v-if="isLogin == true"
+                        v-on:click="logoutAction"
+                    >
+                        <div>
+                            <span class="m-3">歡迎 {{ isLoginData.empy_name }} !!</span>
+                            <button
+                                class="btn btn-info"
+                                id="logoutButton"
+                            > 登出</button>
+                        </div>
+                    </div>
+                    <div
+                        v-else
+                        v-on:click="loginAction"
+                        class="btn btn-info"
+                        id="loginButton"
+                    > 登入
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main
+            role="main"
+            class="pb-3"
+        >
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/vue/vue3.2.31.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+        src="~/js/site.js"
+        asp-append-version="true"
+    ></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

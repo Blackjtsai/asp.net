@@ -1,0 +1,207 @@
+@using Newtonsoft.Json;
+@using EventChart_Core;
+
+@model List<dynamic>;
+
+@{
+  ViewData["Title"] = "EmpyList";
+
+  @* 取新增刪除修改狀態資料 *@
+  string resMsg = Convert.ToString(TempData["ExcuteStatus"]);
+
+  @* 取列表資料 方法一：DeserializeObject*@
+  @* List<empy> EmpyData = JsonConvert.DeserializeObject<List<empy>>(Context.Session.GetString("EmpyData")); //使用session*@
+
+  @* 取列表資料 方法二：Model*@
+  List<dynamic> EmpyData = Model.ToList();
+}
+
+@* 功能列 *@
+<div class="row">
+  <div class="col-4">
+    <div class="btn-group">
+      <a
+        href="#"
+        class="btn btn-primary active"
+        aria-current="page"
+      >Empy</a>
+      <a
+        class="btn btn-primary"
+        href="/System/Empy/List"
+      >列表</a>
+      <a
+        class="btn btn-primary"
+        href="/System/Empy/Detail?act=add"
+      >新增</a>
+    </div>
+  </div>
+  <div class="col text-end">
+    <a
+      href="#"
+      onclick="searchAction('up',-1)"
+    >上一頁</a> <a
+      href="#"
+      onclick="searchAction('next',1)"
+    >下一頁
+    </a>
+    @ViewData["pageNum"] / @ViewData["pageTotal"]
+    ：總筆數 : @ViewData["listCount"]
+
+    <input
+      type="hidden"
+      id="pageNum"
+    >
+  </div>
+</div>
+
+@* 查詢 *@
+<div class="row m-2"></div>
+<div class="row g-3 ">
+  <div class="col-sm-2">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="姓名"
+      id="empy_name"
+    >
+  </div>
+  <div class="col-sm-2">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="帳號"
+      id="account"
+    >
+  </div>
+  <div class="col-sm-1">
+    <select
+      class="form-select"
+      id="sex"
+    >
+      <option
+        value=""
+        selected
+      >性別</option>
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <select
+      class="form-select"
+      id="fav"
+    >
+      <option
+        value=""
+        selected
+      >興趣</option>
+      <option value="看書">看書</option>
+      <option value="旅遊">旅遊</option>
+      <option value="寫程式">寫程式</option>
+      <option value="籃球">籃球</option>
+    </select>
+  </div>
+  <div class="col-sm">
+    <div class="btn-group">
+      <button
+        class="btn btn-info"
+        onclick="searchAction('search',0)"
+      > 查詢 </button>
+    </div>
+  </div>
+</div>
+@* 顯示執行狀態資料 *@
+@{
+  if (resMsg != "" && resMsg != null)
+  {
+    <div class="row m-2"></div>
+    <div
+    class="alert alert-warning alert-dismissible fade show "
+    role="alert"
+  >
+      <strong>@resMsg</strong>
+      <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+    </div>
+  }
+}
+
+@*  列表 *@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">姓名</th>
+      <th scope="col"> 帳號 </th>
+      <th scope="col">密碼</th>
+      <th scope="col">性別</th>
+      <th scope="col">興趣</th>
+      <th scope="col">年齡</th>
+    </tr>
+  </thead>
+  <tbody>
+    @{
+      @* 確認是否有值 *@
+      if (EmpyData != null)
+      {
+
+        @* 顯示資料 *@
+        for (int i = 0; i < EmpyData.Count; i++)
+        {
+          <tr onclick="gotoDetail('@EmpyData[i].empy_id')">
+            <th scope="row">@EmpyData[i].empy_id</th>
+            <td>@EmpyData[i].empy_name</td>
+            <td>@EmpyData[i].account</td>
+            <td>@EmpyData[i].password</td>
+            <td>@EmpyData[i].sex</td>
+            <td>@EmpyData[i].fav</td>
+            <td>@EmpyData[i].age</td>
+          </tr>
+        }
+      }
+      else
+      {
+        <tr>
+          <td colspan="8">尚無資料</td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+    @* init搜尋資料 *@
+      $("#pageNum").val('@ViewData["pageNum"]');
+    $("#empy_name").val('@ViewData["empy_name"]');
+    $("#account").val('@ViewData["account"]');
+    $("#sex").val('@ViewData["sex"]');
+    $("#fav").val('@ViewData["fav"]');
+    @* --- *@
+      });
+  @* 明細頁面 *@
+    function gotoDetail(empy_id) {
+      let url = "/System/Empy/Detail?act=note&empy_id=" + empy_id;
+      window.location.href = url;
+    };
+  @* 查詢 *@
+    function searchAction(type, num) {
+      let getString = "";
+      let pageNum = 1;
+      if (type != 'search') pageNum = parseInt($("#pageNum").val()) + parseInt(num);
+      getString += "pageNum=" + pageNum;
+      getString += "&empy_name=" + $("#empy_name").val();
+      getString += "&account=" + $("#account").val();
+      getString += "&sex=" + $("#sex").val();
+      getString += "&fav=" + $("#fav").val();
+      let url = encodeURI("/System/Empy/list?" + getString);
+      window.location.href = url;
+    };
+
+</script>
+}

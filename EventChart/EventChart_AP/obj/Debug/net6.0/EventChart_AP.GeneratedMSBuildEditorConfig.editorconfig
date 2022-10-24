@@ -1,0 +1,88 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = EventChart_AP
+build_property.RootNamespace = EventChart_AP
+build_property.ProjectDir = /Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP
+build_property._RazorSourceGeneratorDebug = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/Management/EventData/chart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlbWVudC9FdmVudERhdGEvY2hhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/Shared/_Layout_login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRfbG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Chapter/detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0NoYXB0ZXIvZGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Chapter/list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0NoYXB0ZXIvbGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Empy/detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0VtcHkvZGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Empy/list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0VtcHkvbGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/EmpyRole/detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0VtcHlSb2xlL2RldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/EmpyRole/list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0VtcHlSb2xlL2xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Login/detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0xvZ2luL2RldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Login/list.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0xvZ2luL2xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Login/login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0xvZ2luL2xvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/System/Login/login_note.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3lzdGVtL0xvZ2luL2xvZ2luX25vdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/blackjtsai/Documents/tutorial/aspnet/EventChart/EventChart_AP/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-tckuohcq30

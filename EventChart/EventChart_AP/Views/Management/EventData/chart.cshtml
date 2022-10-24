@@ -1,0 +1,122 @@
+@{
+  ViewData["Title"] = "EventData";
+}
+<section id="app-detail">
+
+  @* 功能列 *@
+  <div class="btn-group">
+    <a
+      href="chart"
+      class="btn btn-primary active"
+      aria-current="pseq"
+    >EventData</a>
+    <a
+      class="btn btn-primary"
+      id="chartButton1"
+    >月租年繳</a>
+    <a
+      class="btn btn-primary"
+      id="chartButton2"
+    >登記頁面</a>
+  </div>
+
+  <div id="columnchart_values1"></div>
+  <div id="columnchart_values2"></div>
+
+</section>
+
+@section scripts{
+
+@* load googleChart *@
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
+@* chart view *@
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#chartButton1").click(function () {
+      $("#columnchart_values1").show();
+      $("#columnchart_values2").hide();
+    });
+    $("#chartButton2").click(function () {
+      $("#columnchart_values1").hide();
+      $("#columnchart_values2").show();
+    });
+  });
+  google.charts.load("current", { packages: ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+  google.charts.setOnLoadCallback(drawChart2);
+  @* 月租年繳大促即時資料 *@
+    function drawChart() {
+      $.getJSON("/System/EventData/getDataByAjax", {},
+        function (data) {
+          @* alert(JSON.stringify(data)); *@
+          var data = google.visualization.arrayToDataTable([
+            ["Element", "Density", { role: "style" }],
+            ["訂單數量", data.order_total, "#2B2D42"],
+            ["刷卡總數", data.pay_total, "#E86A92"],
+            ["刷卡成功", data.pay_success, "#E86A92"],
+            ["刷卡失敗", data.pay_error, "#E86A92"],
+            ["合約成立", data.apply_success, "#F7E733"],
+            ["合約取消", data.apply_error, "#F7E733"],
+            ["合約待審", data.apply_none, "#F7E733"],
+            ["CRM成功", data.crm_success, "#F7F7F9"],
+            ["CRM失敗", data.crm_error, "#F7F7F9"],
+            ["EIP成功", data.eip_success, "#41E2BA"],
+            ["EIP失敗", data.eip_error, "#41E2BA"]
+          ]);
+          var view = new google.visualization.DataView(data);
+          view.setColumns([0, 1,
+            {
+              calc: "stringify",
+              sourceColumn: 1,
+              type: "string",
+              role: "annotation"
+            },
+            2]);
+          var options = {
+            title: "月租年繳大促即時資料",
+            width: 1300,
+            height: 500,
+            bar: { groupWidth: "90%" },
+            legend: { position: "none" },
+          };
+          var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values1"));
+          chart.draw(view, options);
+        });
+    }
+  @* 進店登記頁面/活動專人聯繫/直撥抽獎 *@
+    function drawChart2() {
+      $.getJSON("/System/EventData/getDataByAjax2", {},
+        function (data) {
+          @* alert(JSON.stringify(data)); *@
+          var data = google.visualization.arrayToDataTable([
+            ["Element", "Density", { role: "style" }],
+            ["進店登記", data.event01_total, "#8CB369"],
+            ["專人聯繫", data.event02_total, "#F4E285"],
+            ["直撥抽獎登記", data.event03_total, "#F4A259"]
+          ]);
+          var view = new google.visualization.DataView(data);
+          view.setColumns([0, 1,
+            {
+              calc: "stringify",
+              sourceColumn: 1,
+              type: "string",
+              role: "annotation"
+            },
+            2]);
+          var options = {
+            title: "進店登記頁面/活動專人聯繫/直撥抽獎",
+            width: 1300,
+            height: 500,
+            bar: { groupWidth: "90%" },
+            legend: { position: "none" },
+          };
+          var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values2"));
+          chart.draw(view, options);
+        });
+    }
+</script>
+
+}

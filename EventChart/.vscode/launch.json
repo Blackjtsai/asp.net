@@ -1,0 +1,46 @@
+{
+  // 使用 IntelliSense 以得知可用的屬性。
+  // 暫留以檢視現有屬性的描述。
+  // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "EventChart_AP",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/EventChart_AP/bin/Debug/net6.0/EventChart_AP.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/EventChart_AP",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "EventChart_AP_HOT",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "watch",
+      "program": "${workspaceFolder}/EventChart_AP/bin/Debug/net6.0/EventChart_AP.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/EventChart_AP",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "EventChart_Web",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build_web",
+      "program": "${workspaceFolder}/EventChart_Web/bin/Debug/net6.0/EventChart_Web.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/EventChart_Web",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+﻿@using EventChart_Core;
+@using Newtonsoft.Json;
+@using System;
+@using EventChart_AP.Common;
+@{
+    ViewData["System_Name"] = new ConfigsUtil().SYSTEM_Name;
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <title>@ViewData["System_Name"] - @ViewData["Title"] </title>
+    <link
+        rel="stylesheet"
+        href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+        rel="stylesheet"
+        href="~/css/login.css"
+        asp-append-version="true"
+    />
+    @* <link
+        rel="stylesheet"
+        href="~/EventChart_AP.styles.css"
+        asp-append-version="true"
+        /> *@
+</head>
+
+<body>
+    <div id="app-login">
+        <!-- active Modal -->
+        <div
+            class="modal "
+            id="myModal"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!-- As a heading -->
+        <nav class="navbar navbar-light bg-light Small shadow">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1">@ViewData["System_Name"]</span>
+            </div>
+        </nav>
+        @RenderBody()
+    </div>
+    <script src="~/lib/vue/vue3.2.31.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.8.0/axios.min.js'></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

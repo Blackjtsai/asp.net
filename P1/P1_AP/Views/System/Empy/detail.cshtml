@@ -1,0 +1,296 @@
+@{
+  ViewData["Title"] = "EmpyAdd";
+  @* 取得畫面資料 *@
+  string act = Convert.ToString(TempData["act"]);
+  string empy_id = Convert.ToString(TempData["empy_id"]);
+}
+@* 功能列 *@
+<div class="btn-group">
+  <a
+    href="#"
+    class="btn btn-primary active"
+    aria-current="page"
+  >Empy</a>
+  <a
+    class="btn btn-primary"
+    href="List"
+    id="listButton"
+  >列表</a>
+  <a
+    class="btn btn-primary"
+    id="editButton"
+  >修改</a>
+  <a
+    class="btn btn-primary"
+    id="delButton"
+  >刪除</a>
+</div>
+<div class="row m-2"></div>
+@* 表單區域 *@
+<form
+  id="form"
+  method="post"
+>
+  <input
+    type="hidden"
+    name="empy_id"
+  >
+  <input
+    type="hidden"
+    name="fav"
+  >
+  <div class="row mb-3">
+    <label
+      for="empy_name"
+      class="col-sm-2 col-form-label"
+    >姓名</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="empy_name"
+        name="empy_name"
+      >
+
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      for="account"
+      class="col-sm-2 col-form-label"
+    >帳號</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="account"
+        name="account"
+      >
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      for="password"
+      class="col-sm-2 col-form-label"
+    >密碼</label>
+    <div class="col-sm-10">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+      >
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label class="col-sm-2 col-form-label">性別</label>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="sex"
+          value="男"
+          checked
+        >
+        <label class="form-check-label">
+          男
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="sex"
+          value="女"
+        >
+        <label class="form-check-label">
+          女
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      for="fav_list"
+      class="col-sm-2 col-form-label"
+    >興趣</label>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="看書"
+          name="fav_list"
+        >
+        <label class="form-check-label">
+          看書
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="旅遊"
+          name="fav_list"
+        >
+        <label class="form-check-label">
+          旅遊
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="籃球"
+          name="fav_list"
+        >
+        <label class="form-check-label">
+          籃球
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="寫程式"
+          name="fav_list"
+        >
+        <label class="form-check-label">
+          寫程式
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label
+      class="col-sm-2 col-form-label"
+      for="age"
+    >年齡</label>
+    <div class="col-sm-10">
+      <select
+        class="form-select "
+        id="age"
+        name="age"
+      >
+        <option
+          value="0"
+          selected
+        >請選擇年齡</option>
+        @{
+          for (int i = 1; i < 130; i++)
+          {
+            @:<option value="@i">@i</option>
+          }
+        }
+      </select>
+    </div>
+  </div>
+  <button
+    id="submit_id"
+    type="submit"
+    class="btn btn-primary"
+  >送出</button>
+</form>
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+    @* 功能列init/鎖定表單 *@
+    if ("@act" === "add") {
+      $("#form").attr("action", "/System/Empy/Add");
+      $("#editButton").hide();
+      $("#delButton").hide();
+    };
+    @* 取得明細資料 *@
+    if ("@act" === "note") {
+      $("#form :input").attr("disabled", true);
+      $("#submit_id").hide();
+
+      $.getJSON("/System/Empy/detailByID", { empy_id: "@empy_id" },
+        function (data) {
+          @* alert(JSON.stringify(data)); *@
+            $("form input[name='empy_id']").val(data[0]["empy_id"]);
+          $("#form input[name='empy_name']").val(data[0]["empy_name"]);
+          $("#form input[name='account']").val(data[0]["account"]);
+          $("#form input[name='password']").val(data[0]["password"]);
+          $("#form input[name='sex'][value='" + data[0]["sex"] + "']").attr('checked', true);
+          $("#form select[name='age']").val(data[0]["age"]);
+          @* 設定checkbox 解字串*@
+          if (data[0]["fav"] != "" || data[0]["fav"] != null) {
+            let fav_arr = data[0]["fav"].split(",");
+            $('form input:checkbox[name=fav_list]').each(function (i, item) {
+              if (fav_arr.indexOf($(item).val()) != -1) {
+                $(item).attr("checked", true);
+              } else {
+                $(item).attr("checked", false);
+              }
+            });
+          }
+        });
+    }
+    @* 表單送出檢查 *@
+      $('#form').submit(function () {
+        @* 去空白 *@
+          $("#form input[name='empy_name']").val().trim();
+        $("#form input[name='account']").val().trim();
+        $("#form input[name='password']").val().trim();
+
+        @* 整理checkbox 資料 (fav_list) *@
+          let fav_arr = new Array();
+        $('#form input:checkbox[name=fav_list]:checked').each(function (i, item) {
+          fav_arr.push($(item).val());
+        });
+        $("#form input[name='fav']").val(fav_arr.join(','));
+
+        @* 檢查表單 *@
+        if (checkHandler() === false) {
+          return false;
+        };
+
+        return true;
+      });
+
+    @* 修改狀態 *@
+      $("#editButton").on("click", function () {
+        $("#form").attr("action", "/System/Empy/Edit");
+        $("#form :input").attr("disabled", false);
+        $("#submit_id").show();
+      });
+    @* 刪除狀態 *@
+      $("#delButton").on("click", function () {
+        if (confirm("確定要刪除資料？")) {
+          let url = "/System/Empy/Del?empy_id=" + "@empy_id";
+          window.location.href = url;
+        }
+      });
+  });
+  function checkHandler() {
+    @* 檢查表單 *@
+      // Check  欄位
+      let err_mag = "";
+    if ($("#form input[name='empy_name']").val() === '') {
+      err_mag += ('empy_name is empty.' + "\n");
+    }
+    if ($("#form input[name='account']").val() === '') {
+      err_mag += ('account is empty.' + "\n");
+    }
+    if ($("#form input[name='password']").val() === '') {
+      err_mag += ('password is empty.' + "\n");
+    }
+    if ($("#form input[name='sex']").val() === '') {
+      err_mag += ('sex is empty.' + "\n");
+    }
+    if ($("#form select[name='age']").val() == '0') {
+      err_mag += ('age is empty.' + "\n");
+    }
+    if (err_mag != "") {
+      alert(err_mag);
+      return false;
+    }
+
+    return true;
+  }
+
+</script>
+}

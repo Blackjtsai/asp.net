@@ -1,0 +1,280 @@
+@using Newtonsoft.Json;
+@using P1_Core;
+
+@{
+  ViewData["Title"] = "EmpyRoleAdd";
+
+  @* 取得畫面資料 *@
+  string act = Convert.ToString(TempData["act"]);
+  string empy_role_id = Convert.ToString(TempData["empy_role_id"]);
+
+  @* 取empy *@
+  List<empy> EmpyData = JsonConvert.DeserializeObject<List<empy>>(Context.Session.GetString("EmpyData"));
+  @* 取empy *@
+  List<chapter> ChapterData = JsonConvert.DeserializeObject<List<chapter>>(Context.Session.GetString("ChapterData"));
+
+}
+@* 功能列 *@
+<div class="btn-group">
+  <a
+    href="#"
+    class="btn btn-primary active"
+    aria-current="pseq"
+  >EmpyRole</a>
+  <a
+    class="btn btn-primary"
+    href="List"
+    id="listButton"
+  >列表</a>
+  <a
+    class="btn btn-primary"
+    id="editButton"
+  >修改</a>
+  <a
+    class="btn btn-primary"
+    id="delButton"
+  >刪除</a>
+</div>
+<div class="row m-2"></div>
+@* 表單區域 *@
+<form
+  id="form"
+  method="post"
+>
+  <input
+    type="hidden"
+    name="empy_role_id"
+  >
+  <input
+    type="hidden"
+    name="action_name"
+  >
+
+  <div class="row mb-3">
+    <label
+      class="col-sm-2 col-form-label"
+      for="age"
+    >帳號</label>
+    <div class="col-sm-10">
+      <select
+        class="form-select "
+        id="empy_id"
+        name="empy_id"
+      >
+        <option
+          value=""
+          selected
+        >請選擇帳號</option>
+        @{
+          for (int i = 0; i < EmpyData.Count; i++)
+          {
+            @:<option value="@EmpyData[i].empy_id">@EmpyData[i].account</option>
+          }
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label
+      class="col-sm-2 col-form-label"
+      for="age"
+    >管理系統</label>
+    <div class="col-sm-10">
+      <select
+        class="form-select "
+        id="controller_name"
+        name="controller_name"
+      >
+        <option
+          value=""
+          selected
+        >請選擇</option>
+        @{
+          for (int i = 0; i < ChapterData.Count; i++)
+          {
+            @:<option value="@ChapterData[i].chapter_url">@ChapterData[i].chapter_name</option>
+          }
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label
+      for="action_name"
+      class="col-sm-2 col-form-label"
+    >功能項目</label>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="Add"
+          name="action_name_list"
+        >
+        <label class="form-check-label">
+          新增
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="List"
+          name="action_name_list"
+        >
+        <label class="form-check-label">
+          列表
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="Edit"
+          name="action_name_list"
+        >
+        <label class="form-check-label">
+          修改
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="Del"
+          name="action_name_list"
+        >
+        <label class="form-check-label">
+          刪除
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="Detail"
+          name="action_name_list"
+        >
+        <label class="form-check-label">
+          明細
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label
+      for="note"
+      class="col-sm-2 col-form-label"
+    >note</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="note"
+        name="note"
+      >
+    </div>
+  </div>
+
+  <button
+    id="submit_id"
+    type="submit"
+    class="btn btn-primary"
+  >送出</button>
+</form>
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+    @* 功能列init/鎖定表單 *@
+    if ("@act" === "add") {
+      $("#form").attr("action", "/System/EmpyRole/Add");
+      $("#editButton").hide();
+      $("#delButton").hide();
+    };
+    @* 取得明細資料 *@
+    if ("@act" === "note") {
+      $("#form :input").attr("disabled", true);
+      $("#submit_id").hide();
+
+      $.getJSON("/System/EmpyRole/detailByID", { empy_role_id: "@empy_role_id" },
+        function (data) {
+          @* alert(JSON.stringify(data)); *@
+            $("form input[name='empy_role_id']").val(data[0]["empy_role_id"]);
+          $("#form select[name='empy_id']").val(data[0]["empy_id"]);
+          $("#form select[name='controller_name']").val(data[0]["controller_name"]);
+
+          @* 設定checkbox 解字串*@
+          if (data[0]["action_name"] != "" || data[0]["action_name"] != null) {
+            let action_name_arr = data[0]["action_name"].split(",");
+            $('form input:checkbox[name=action_name_list]').each(function (i, item) {
+              if (action_name_arr.indexOf($(item).val()) != -1) {
+                $(item).attr("checked", true);
+              } else {
+                $(item).attr("checked", false);
+              }
+            });
+          }
+          $("#form input[name='note']").val(data[0]["note"]);
+        });
+    }
+    @* 表單送出檢查 *@
+      $('#form').submit(function () {
+        @* 去空白 *@
+          $("#form select[name='empy_id']").val().trim();
+        $("#form select[name='controller_name']").val().trim();
+        $("#form input[name='note']").val().trim();
+
+        @* 整理checkbox 資料 (action_name_list) *@
+          let action_name_arr = new Array();
+        $('#form input:checkbox[name=action_name_list]:checked').each(function (i, item) {
+          action_name_arr.push($(item).val());
+        });
+        $("#form input[name='action_name']").val(action_name_arr.join(','));
+
+        @* 檢查表單 *@
+        if (checkHandler() === false) {
+          return false;
+        };
+        return true;
+      });
+
+    @* 修改狀態 *@
+      $("#editButton").on("click", function () {
+        $("#form").attr("action", "/System/EmpyRole/Edit");
+        $("#form :input").attr("disabled", false);
+        $("#submit_id").show();
+      });
+    @* 刪除狀態 *@
+      $("#delButton").on("click", function () {
+        if (confirm("確定要刪除資料？")) {
+          let url = "/System/EmpyRole/Del?empy_role_id=" + "@empy_role_id";
+          window.location.href = url;
+        }
+      });
+  });
+  function checkHandler() {
+    @* 檢查表單 *@
+      // Check  欄位
+      let err_mag = "";
+    if ($("#form select[name='empy_id']").val() === '') {
+      err_mag += ('empy_id is empty.' + "\n");
+    }
+    if ($("#form select[name='controller_name']").val() === '') {
+      err_mag += ('controller_name is empty.' + "\n");
+    }
+    if ($("#form input[name='action_name']").val() === '') {
+      err_mag += ('action_name is empty.' + "\n");
+    }
+
+    if (err_mag != "") {
+      alert(err_mag);
+      return false;
+    }
+    return true;
+  }
+</script>
+}

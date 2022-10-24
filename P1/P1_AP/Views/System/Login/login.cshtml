@@ -1,0 +1,117 @@
+@{
+  ViewData["Title"] = "Login";
+  Layout = "~/Views/Shared/_Layout_login.cshtml";
+}
+
+<!-- 內容-->
+<div class="login">
+  <img
+    :src="login_img"
+    class="rounded-circle Larger shadow"
+    id="login_img"
+  >
+  <form id='form'>
+    <div class="row p-2">
+      <label
+        for="account"
+        class="col-sm-3 col-form-label"
+      >Account</label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          class="form-control"
+          id="account"
+          v-model="input.account"
+        >
+      </div>
+    </div>
+    <div class="row p-2">
+      <label
+        for="password"
+        class="col-sm-3 col-form-label"
+      >Password</label>
+      <div class="col-sm-9 ">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          v-model="input.password"
+        >
+      </div>
+    </div>
+    <div class="row p-2">
+      <button
+        type="button"
+        class="btn btn-primary p-2 w-100"
+        v-on:click="submitHandler()"
+      >Sign in</button>
+    </div>
+    <div class="row p-2 text-center">
+      <a>Forget Password</a>
+    </div>
+  </form>
+</div>
+
+@section scripts{
+<script>
+  // 登入作業
+  Vue.createApp({
+    data() {
+      return {
+        login_img: "https://picsum.photos/150/150",
+        input: {
+          account: '',
+          password: ''
+        }
+      }
+    },
+    mounted() {
+      let that = this;
+      setTimeout(function () {
+        // 登入狀態檢查作業,已登入轉去Home/Index
+        $.getJSON("/System/Login/getLoginInfoData", '',
+          function (result) {
+            if (result.resCode == "0000") {
+              that.toHomePage();
+            }
+          });
+      }, 1000);
+    },
+    methods: {
+      submitHandler() {
+        let that = this;
+        let { account, password } = that.input;
+        // 登入作業
+        $("#myModal").modal("show");
+        setTimeout(function () {
+          axios.get("/System/Login/loginAction", {
+            params:
+            {
+              login: account,
+              password: password
+            }
+          })
+            .then((res) => {
+
+              if (res.data.status == 5) {
+                that.toHomePage();
+              } else {
+                alert(res.data.note);
+                that.input.account = "";
+                that.input.password = "";
+              }
+            })
+            .catch((err) => {
+              console.log(err)
+            });
+          $("#myModal").modal("hide");
+        }, 1000);
+      },
+      toHomePage() {
+        let url = "/Home/Index";
+        window.location.href = url;
+      }
+    },
+  }).mount('#app-login');
+</script>
+}

@@ -1,0 +1,16 @@
+@{
+  ViewData["Title"] = "登入說明頁面";
+}
+
+<section id='login_note_section'>
+  <div class="text-center">
+    <h2>@ViewData["Title"]</h2>
+    <h1>@TempData["login_note"]</h1>
+  </div>
+</section>
+
+<style>
+  #login_note_section {
+    margin-top: 150PX;
+  }
+</style>
